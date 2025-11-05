@@ -1,9 +1,9 @@
-import { Button } from './components/ui';
+import People from '@/components/People';
 
 function App() {
   return (
     <>
-      <Button>Hello, World!</Button>
+      <People />
     </>
   );
 }
