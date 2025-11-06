@@ -2,7 +2,6 @@ import { type ChangeEvent } from 'react';
 import { DataTable, Pagination } from '@/components/common';
 import { useDebounce, usePagination, usePeople, useTable } from '@/hooks';
 import { Button, Input, Spinner } from '@/components/ui';
-
 import { type TPeople } from '@/types';
 import { type ColumnDef, type Row } from '@tanstack/react-table';
 import { useAtom } from 'jotai';

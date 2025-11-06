@@ -57,3 +57,7 @@ pnpm dev
 * [ ] Create `Settings` modal for reset cached data & etc.
 * [ ] Implement `.env`
 * [ ] Test with jest/vitest
+* [ ] Husky & staged-lint
+* [ ] Mobile responsive design
+* [ ] Add Toasts
+* [ ] Handle 404
