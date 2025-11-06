@@ -1,8 +1,8 @@
-import People from '@/components/People';
+import { useAtom } from 'jotai';
+import { People } from '@/components/pages';
 import { Dialog } from '@/components/ui';
 import { PeopleDialog } from '@/components/dialogs';
 import { peopleDialogOpen } from '@/atoms';
-import { useAtom } from 'jotai';
 
 function App() {
   const [isPeopleDialogOpen] = useAtom(peopleDialogOpen);
