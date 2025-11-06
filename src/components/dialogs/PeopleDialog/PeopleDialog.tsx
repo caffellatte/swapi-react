@@ -18,10 +18,10 @@ export function PeopleDialog() {
   const {
     peopleId: details,
     isLoading,
-    isError,
-    error,
+    // isError,
+    // error,
     data,
-    isFetching,
+    // isFetching,
     isSuccess
   } = usePeopleId({
     id: id,
