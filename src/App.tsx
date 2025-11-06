@@ -3,6 +3,7 @@ import { PeoplePage } from '@/components/pages';
 import { Dialog } from '@/components/ui';
 import { PeopleDialog } from '@/components/dialogs';
 import { peopleDialogOpen } from '@/atoms';
+import { Toaster } from '@/components/ui';
 
 function App() {
   const [isPeopleDialogOpen] = useAtom(peopleDialogOpen);
@@ -13,6 +14,7 @@ function App() {
       <Dialog open={isPeopleDialogOpen}>
         <PeopleDialog />
       </Dialog>
+      <Toaster />
     </>
   );
 }
