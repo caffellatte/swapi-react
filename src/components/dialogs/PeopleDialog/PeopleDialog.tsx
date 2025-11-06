@@ -9,6 +9,7 @@ import {
 import { peopleId, peopleDialogOpen } from '@/atoms';
 import { useAtom } from 'jotai';
 import { usePeopleId } from '@/hooks';
+import { PeopleForm } from '@/components/forms';
 
 export function PeopleDialog() {
   const [id, setPeopleId] = useAtom(peopleId);
@@ -21,7 +22,8 @@ export function PeopleDialog() {
     isError,
     error,
     data,
-    isFetching
+    isFetching,
+    isSuccess
   } = usePeopleId({
     id: id,
     enabled: !!id
@@ -36,13 +38,15 @@ export function PeopleDialog() {
       }}
     >
       <DialogHeader>
-        <DialogTitle>Details</DialogTitle>
+        <DialogTitle>{details?.name}</DialogTitle>
         <DialogDescription>
           Details about people with id: {id}
         </DialogDescription>
       </DialogHeader>
 
-      <div>{details?.name}</div>
+      {data && (
+        <PeopleForm data={data} isLoading={isLoading} isSuccess={isSuccess} />
+      )}
 
       <DialogFooter>
         <Button
