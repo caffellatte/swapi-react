@@ -1,10 +1,8 @@
 import {
-  Button,
   DialogContent,
   DialogTitle,
   DialogHeader,
   DialogDescription,
-  DialogFooter,
   DefaultDialogClose
 } from '@/components/ui';
 import { peopleId, peopleDialogOpen } from '@/atoms';
@@ -49,16 +47,6 @@ export function PeopleDialog() {
         <PeopleForm data={data} isLoading={isLoading} isSuccess={isSuccess} />
       )}
 
-      <DialogFooter>
-        <Button
-          onClick={() => {
-            setPeopleDialogOpen(false);
-            setPeopleId(null);
-          }}
-        >
-          Close
-        </Button>
-      </DialogFooter>
       <DefaultDialogClose
         onClick={() => {
           setPeopleDialogOpen(false);
