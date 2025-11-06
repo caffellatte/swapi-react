@@ -25,7 +25,7 @@ const fetchPeople = async ({
 }): Promise<PeopleResponse> => {
   const [, { search, page }] = queryKey;
 
-  const url = new URL('https://swapi.py4e.com/api/people/');
+  const url = new URL('https://swapi.dev/api/people/');
   if (search) url.searchParams.set('search', search);
   if (page > 1) url.searchParams.set('page', String(page));
 
