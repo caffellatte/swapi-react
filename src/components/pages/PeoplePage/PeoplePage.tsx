@@ -22,10 +22,11 @@ export function PeoplePage() {
   });
 
   // TODO: handler loading & error state
-  const { people, isLoading, isError, error, data, isFetching } = usePeople({
-    search: String(debouncedSearchTerm),
-    page: pagination.pageIndex
-  });
+  const { people, /* isLoading, isError, error, isFetching, */ data } =
+    usePeople({
+      search: String(debouncedSearchTerm),
+      page: pagination.pageIndex
+    });
 
   const createCellRenderer =
     (key: keyof TPeople) =>

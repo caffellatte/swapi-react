@@ -28,8 +28,8 @@ export function PeopleForm({
   const queryClient = useQueryClient();
 
   const {
-    reset,
-    clearErrors,
+    // reset,
+    // clearErrors,
     handleSubmit,
     setError,
     control,
