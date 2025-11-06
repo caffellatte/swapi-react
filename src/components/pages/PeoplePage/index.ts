@@ -1,1 +1,2 @@
-export { default } from './PeoplePage';
+export * from './columns';
+export * from './PeoplePage';

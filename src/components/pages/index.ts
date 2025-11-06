@@ -1,1 +1,1 @@
-export { default as PeoplePage } from './PeoplePage';
+export * from './PeoplePage';

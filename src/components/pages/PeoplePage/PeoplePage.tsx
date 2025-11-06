@@ -1,10 +1,10 @@
 import { type ChangeEvent, useState } from 'react';
-import { columns } from './columns';
+import { columns } from '.';
 import { DataTable, Pagination } from '@/components/common';
 import { useDebounce, usePagination, usePeople, useTable } from '@/hooks';
 import { Input } from '@/components/ui';
 
-export default function PeoplePage() {
+export function PeoplePage() {
   const [search, setSearch] = useState('');
 
   const debouncedSearchTerm = useDebounce(search, 300);
