@@ -1,14 +1,10 @@
-import { type ChangeEvent, useState, useEffect } from 'react';
-import { columns } from './columns';
-import { DataTable } from './DataTable';
-import { Pagination } from '@/components/common';
+import { type ChangeEvent, useState } from 'react';
+import { columns } from '.';
+import { DataTable, Pagination } from '@/components/common';
 import { useDebounce, usePagination, usePeople, useTable } from '@/hooks';
 import { Input } from '@/components/ui';
-import { useAtom } from 'jotai';
-import { peopleId } from '@/atoms';
 
-export default function People() {
-  const [id] = useAtom(peopleId);
+export function PeoplePage() {
   const [search, setSearch] = useState('');
 
   const debouncedSearchTerm = useDebounce(search, 300);
@@ -39,20 +35,18 @@ export default function People() {
     });
   };
 
-  useEffect(() => {
-    console.log('id:', id);
-  }, [id]);
-
   return (
     <div className="container mx-auto py-10">
-      <Input
-        type="text"
-        placeholder="Search..."
-        value={search}
-        onChange={handleSearchInputChange}
-      />
-      <DataTable columns={columns} table={table} />
-      <Pagination table={table} />
+      <div className="flex flex-col gap-5">
+        <Input
+          type="text"
+          placeholder="Search..."
+          value={search}
+          onChange={handleSearchInputChange}
+        />
+        <DataTable columns={columns} table={table} />
+        <Pagination table={table} />
+      </div>
     </div>
   );
 }

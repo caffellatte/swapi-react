@@ -10,7 +10,7 @@ import { peopleId, peopleDialogOpen } from '@/atoms';
 import { useAtom } from 'jotai';
 import { usePeopleId } from '@/hooks';
 
-export default function PeopleDialog() {
+export function PeopleDialog() {
   const [id, setPeopleId] = useAtom(peopleId);
   const [, setPeopleDialogOpen] = useAtom(peopleDialogOpen);
 

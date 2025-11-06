@@ -1,1 +1,1 @@
-export { default } from './PeopleDialog';
+export * from './PeopleDialog';
