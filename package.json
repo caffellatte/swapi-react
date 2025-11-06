@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "generate-people-schema": "pnpm dlx json-schema-to-zod --module \"esm\" --name \"people\" --type \"TPeople\" --input \"schemas/people.json\" --output \"src/types/people.ts\""
+    "generate-people-schema": "pnpm dlx json-schema-to-zod --module \"esm\" --name \"peopleSchema\" --type \"TPeople\" --input \"schemas/people.json\" --output \"src/types/people.ts\""
   },
   "dependencies": {
     "@radix-ui/react-select": "^2.2.6",

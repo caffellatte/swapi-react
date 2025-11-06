@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const people = z
+export const peopleSchema = z
   .object({
     name: z.string().describe('The name of this person.'),
     height: z.string().describe('The height of this person in meters.'),
@@ -46,4 +46,4 @@ export const people = z
       )
   })
   .describe('A person within the Star Wars universe');
-export type TPeople = z.infer<typeof people>;
+export type TPeople = z.infer<typeof peopleSchema>;
