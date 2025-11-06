@@ -134,12 +134,23 @@ export function PeoplePage() {
   return (
     <div className="container mx-auto py-10">
       <div className="flex flex-col gap-5">
-        <Input
-          type="text"
-          placeholder="Search..."
-          value={peopleSearchTerm}
-          onChange={handleSearchInputChange}
-        />
+        <div className="flex items-center gap-2">
+          <Input
+            type="text"
+            placeholder="Name"
+            value={peopleSearchTerm}
+            onChange={handleSearchInputChange}
+          />
+          <Button
+            disabled={!peopleSearchTerm}
+            onClick={() => {
+              setPeopleSearchTerm('');
+            }}
+            variant="secondary"
+          >
+            Clear
+          </Button>
+        </div>
         {!isLoading ? (
           <>
             <DataTable columns={columns} table={table} />
