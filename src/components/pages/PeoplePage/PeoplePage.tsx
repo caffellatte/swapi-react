@@ -1,13 +1,20 @@
-import { type ChangeEvent, useState } from 'react';
-import { columns } from '.';
+import { type ChangeEvent } from 'react';
 import { DataTable, Pagination } from '@/components/common';
 import { useDebounce, usePagination, usePeople, useTable } from '@/hooks';
-import { Input } from '@/components/ui';
+import { Button, Input } from '@/components/ui';
+
+import { type TPeople } from '@/types';
+import { type ColumnDef, type Row } from '@tanstack/react-table';
+import { useAtom } from 'jotai';
+import { peopleId, peopleDialogOpen, peopleSearch } from '@/atoms';
+import { useQueryClient } from '@tanstack/react-query';
 
 export function PeoplePage() {
-  const [search, setSearch] = useState('');
+  const queryClient = useQueryClient();
 
-  const debouncedSearchTerm = useDebounce(search, 300);
+  const [peopleSearchTerm, setPeopleSearchTerm] = useAtom(peopleSearch);
+
+  const debouncedSearchTerm = useDebounce(peopleSearchTerm, 300);
 
   const [pagination, setPagination] = usePagination({
     pageIndex: 0,
@@ -20,6 +27,75 @@ export function PeoplePage() {
     page: pagination.pageIndex
   });
 
+  const createCellRenderer =
+    (key: keyof TPeople) =>
+    ({ row }: { row: Row<TPeople> }) =>
+      getCellValue(row, key);
+
+  const columns: ColumnDef<TPeople>[] = [
+    {
+      accessorKey: 'name',
+      header: 'Name'
+    },
+    {
+      accessorKey: 'height',
+      header: 'Height',
+      cell: createCellRenderer('height')
+    },
+    {
+      accessorKey: 'mass',
+      header: 'Mass',
+      cell: createCellRenderer('mass')
+    },
+    {
+      accessorKey: 'hair_color',
+      header: 'Hair Color',
+      cell: createCellRenderer('hair_color')
+    },
+    {
+      accessorKey: 'skin_color',
+      header: 'Skin Color',
+      cell: createCellRenderer('skin_color')
+    },
+    {
+      accessorKey: 'eye_color',
+      header: 'Eye Color',
+      cell: createCellRenderer('eye_color')
+    },
+    {
+      accessorKey: 'birth_year',
+      header: 'Birth Year',
+      cell: createCellRenderer('birth_year')
+    },
+    {
+      accessorKey: 'gender',
+      header: 'Gender',
+      cell: createCellRenderer('gender')
+    },
+    {
+      id: 'actions',
+      cell: ({ row }) => {
+        const [, setPeopleId] = useAtom(peopleId);
+        const [, setPeopleDialogOpen] = useAtom(peopleDialogOpen);
+        const url = row.original.url;
+        const id = url.split('/').at(-2);
+
+        if (id) {
+          return (
+            <Button
+              onClick={() => {
+                setPeopleId(Number(id));
+                setPeopleDialogOpen(true);
+              }}
+            >
+              Details
+            </Button>
+          );
+        }
+      }
+    }
+  ];
+
   const table = useTable({
     data: people,
     columns,
@@ -29,11 +105,32 @@ export function PeoplePage() {
   });
 
   const handleSearchInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value);
+    setPeopleSearchTerm(event.target.value);
     setPagination((prevState) => {
       return { pageIndex: 0, pageSize: prevState.pageSize };
     });
   };
+
+  function getCellValue<K extends keyof TPeople>(
+    row: Row<TPeople>,
+    key: K
+  ): TPeople[K] {
+    const originalValue = row.original[key];
+
+    if (!peopleSearchTerm) {
+      return originalValue;
+    }
+
+    const url = row.original.url;
+    const id = url.split('/').at(-2);
+
+    const data = queryClient.getQueryData<TPeople>([
+      'people-id',
+      { id: Number(id) }
+    ]);
+
+    return data?.[key] ?? originalValue;
+  }
 
   return (
     <div className="container mx-auto py-10">
@@ -41,7 +138,7 @@ export function PeoplePage() {
         <Input
           type="text"
           placeholder="Search..."
-          value={search}
+          value={peopleSearchTerm}
           onChange={handleSearchInputChange}
         />
         <DataTable columns={columns} table={table} />
