@@ -47,7 +47,6 @@ export function PeopleDialog() {
       <DialogFooter>
         <Button
           onClick={() => {
-            console.log('DialogClose');
             setPeopleDialogOpen(false);
             setPeopleId(null);
           }}
