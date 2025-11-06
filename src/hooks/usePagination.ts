@@ -1,13 +1,17 @@
-import { useState } from 'react';
+import { useState, type Dispatch, type SetStateAction } from 'react';
 import { type PaginationState } from '@tanstack/react-table';
 
-interface Props extends PaginationState {}
-
-export function usePagination({ pageIndex = 1, pageSize = 10 }: Props) {
+export function usePagination({
+  pageIndex,
+  pageSize
+}: PaginationState): [
+  PaginationState,
+  Dispatch<SetStateAction<PaginationState>>
+] {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: pageIndex,
     pageSize: pageSize
   });
 
-  return { pagination, setPagination };
+  return [pagination, setPagination];
 }
