@@ -4,7 +4,8 @@ import {
   DialogTitle,
   DialogHeader,
   DialogDescription,
-  DialogFooter
+  DialogFooter,
+  DefaultDialogClose
 } from '@/components/ui';
 import { peopleId, peopleDialogOpen } from '@/atoms';
 import { useAtom } from 'jotai';
@@ -58,6 +59,12 @@ export function PeopleDialog() {
           Close
         </Button>
       </DialogFooter>
+      <DefaultDialogClose
+        onClick={() => {
+          setPeopleDialogOpen(false);
+          setPeopleId(null);
+        }}
+      />
     </DialogContent>
   );
 }
