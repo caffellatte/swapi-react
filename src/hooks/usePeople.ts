@@ -2,13 +2,13 @@
 import { useMemo } from 'react';
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
 
-import { type IPerson } from '@/types';
+import { type TPeople } from '@/types';
 
 interface PeopleResponse {
   count: number;
   next: string | null;
   previous: string | null;
-  results: IPerson[];
+  results: TPeople[];
 }
 
 interface UsePeopleParams {
@@ -51,7 +51,7 @@ export const usePeople = ({
     hasPreviousPage: boolean;
   }
 > & {
-  people: IPerson[];
+  people: TPeople[];
 } => {
   const query = useQuery({
     queryKey: ['people', { search: search.trim(), page }],
