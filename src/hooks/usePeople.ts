@@ -2,20 +2,13 @@
 import { useMemo } from 'react';
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
 
-interface SWAPIPerson {
-  name: string;
-  height: string;
-  mass: string;
-  gender: string;
-  birth_year: string;
-  url: string;
-}
+import { type IPerson } from '@/types';
 
 interface PeopleResponse {
   count: number;
   next: string | null;
   previous: string | null;
-  results: SWAPIPerson[];
+  results: IPerson[];
 }
 
 interface UsePeopleParams {
@@ -32,9 +25,9 @@ const fetchPeople = async ({
 }): Promise<PeopleResponse> => {
   const [, { search, page }] = queryKey;
 
-  const url = new URL('https://swapi.py4e.com/api/people/');
+  const url = new URL('https://swapi.dev/api/people/');
   if (search) url.searchParams.set('search', search);
-  if (page > 1) url.searchParams.set('page', String(page));
+  if (page > 0) url.searchParams.set('page', String(page + 1));
 
   const response = await fetch(url.toString(), { signal });
   if (!response.ok) {
@@ -58,7 +51,7 @@ export const usePeople = ({
     hasPreviousPage: boolean;
   }
 > & {
-  people: SWAPIPerson[];
+  people: IPerson[];
 } => {
   const query = useQuery({
     queryKey: ['people', { search: search.trim(), page }],
