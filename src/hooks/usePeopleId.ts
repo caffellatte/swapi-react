@@ -44,6 +44,7 @@ export const usePeopleId = ({
     queryKey: ['people-id', { id }],
     queryFn: fetchPeopleId,
     enabled: enabled && Number.isFinite(id),
+    staleTime: Infinity,
     select: (data): PeopleIdResponse => {
       return {
         ...data

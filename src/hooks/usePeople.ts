@@ -3,7 +3,7 @@ import { useQuery, type UseQueryResult } from '@tanstack/react-query';
 
 import { type TPeople } from '@/types';
 
-interface PeopleResponse {
+export interface PeopleResponse {
   count: number;
   next: string | null;
   previous: string | null;
@@ -55,6 +55,7 @@ export const usePeople = ({
   const query = useQuery({
     queryKey: ['people', { search: search.trim(), page }],
     queryFn: fetchPeople,
+    staleTime: Infinity,
     select: (
       data
     ): PeopleResponse & {

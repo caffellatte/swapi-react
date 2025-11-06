@@ -43,8 +43,13 @@ export function PeopleDialog() {
         </DialogDescription>
       </DialogHeader>
 
-      {data && (
-        <PeopleForm data={data} isLoading={isLoading} isSuccess={isSuccess} />
+      {data && id && (
+        <PeopleForm
+          id={id}
+          data={data}
+          isLoading={isLoading}
+          isSuccess={isSuccess}
+        />
       )}
 
       <DefaultDialogClose

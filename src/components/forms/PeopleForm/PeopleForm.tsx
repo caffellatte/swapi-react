@@ -4,14 +4,29 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
 import { Button, Input, Label } from '@/components/ui';
 import type { TPeople } from '@/types';
+import { useQueryClient } from '@tanstack/react-query';
+import { type PeopleResponse } from '@/hooks';
+import { peopleId, peopleDialogOpen } from '@/atoms';
+import { useAtom } from 'jotai';
 
 interface PeopleFormProps {
+  id: number;
   data: TPeople;
   isLoading: boolean;
   isSuccess: boolean;
 }
 
-export function PeopleForm({ data, isLoading, isSuccess }: PeopleFormProps) {
+export function PeopleForm({
+  id,
+  data,
+  isLoading,
+  isSuccess
+}: PeopleFormProps) {
+  const [, setPeopleId] = useAtom(peopleId);
+  const [, setPeopleDialogOpen] = useAtom(peopleDialogOpen);
+
+  const queryClient = useQueryClient();
+
   const {
     reset,
     clearErrors,
@@ -46,7 +61,8 @@ export function PeopleForm({ data, isLoading, isSuccess }: PeopleFormProps) {
     gender
   }: TPeopleForm) => {
     try {
-      console.log(
+      queryClient.setQueryData(['people-id', { id }], (data: TPeople) => ({
+        ...data,
         height,
         mass,
         hair_color,
@@ -54,8 +70,50 @@ export function PeopleForm({ data, isLoading, isSuccess }: PeopleFormProps) {
         eye_color,
         birth_year,
         gender
+      }));
+
+      const cachedPeople = queryClient.getQueryData([
+        'people',
+        { search: '', page: Math.floor(id / 10) }
+      ]);
+
+      const { results, ...restCachedPeopleResponse } =
+        cachedPeople as PeopleResponse;
+
+      const filteredResults = results.filter(
+        (people) => people.url !== data.url
       );
-      // TODO: add cache mutation
+
+      const targetedPeople = results.filter((people) => people.url == data.url);
+
+      filteredResults.push({
+        ...targetedPeople[0],
+        height,
+        mass,
+        hair_color,
+        skin_color,
+        eye_color,
+        birth_year,
+        gender
+      });
+
+      filteredResults.sort((a, b) => {
+        const _a = Number(a.url.split('/').at(-2)) ?? 0;
+        const _b = Number(b.url.split('/').at(-2)) ?? 0;
+
+        return _a - _b;
+      });
+
+      queryClient.setQueryData(
+        ['people', { search: '', page: Math.floor(id / 10) }],
+        () => ({
+          ...restCachedPeopleResponse,
+          results: filteredResults
+        })
+      );
+
+      setPeopleDialogOpen(false);
+      setPeopleId(null);
     } catch (e) {
       setError('root', {
         type: 'custom',
