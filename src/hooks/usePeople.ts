@@ -1,4 +1,3 @@
-// usePeople.ts
 import { useMemo } from 'react';
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
 
