@@ -1,7 +1,7 @@
 import { type ChangeEvent } from 'react';
 import { DataTable, Pagination } from '@/components/common';
 import { useDebounce, usePagination, usePeople, useTable } from '@/hooks';
-import { Button, Input } from '@/components/ui';
+import { Button, Input, Spinner } from '@/components/ui';
 
 import { type TPeople } from '@/types';
 import { type ColumnDef, type Row } from '@tanstack/react-table';
@@ -22,11 +22,10 @@ export function PeoplePage() {
   });
 
   // TODO: handler loading & error state
-  const { people, /* isLoading, isError, error, isFetching, */ data } =
-    usePeople({
-      search: String(debouncedSearchTerm),
-      page: pagination.pageIndex
-    });
+  const { people, isLoading, isError, error, isFetching, data } = usePeople({
+    search: String(debouncedSearchTerm),
+    page: pagination.pageIndex
+  });
 
   const createCellRenderer =
     (key: keyof TPeople) =>
@@ -142,8 +141,16 @@ export function PeoplePage() {
           value={peopleSearchTerm}
           onChange={handleSearchInputChange}
         />
-        <DataTable columns={columns} table={table} />
-        <Pagination table={table} />
+        {!isLoading ? (
+          <>
+            <DataTable columns={columns} table={table} />
+            <Pagination table={table} />
+          </>
+        ) : (
+          <div className="flex items-center justify-center p-16">
+            <Spinner className="size-6" />
+          </div>
+        )}
       </div>
     </div>
   );
