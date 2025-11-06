@@ -22,7 +22,7 @@ export function PeoplePage() {
   });
 
   // TODO: handler loading & error state
-  const { people, isLoading, isError, error, isFetching, data } = usePeople({
+  const { people, isLoading, /* isError, error, */ data } = usePeople({
     search: String(debouncedSearchTerm),
     page: pagination.pageIndex
   });
