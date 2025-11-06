@@ -27,7 +27,7 @@ const fetchPeople = async ({
 
   const url = new URL('https://swapi.dev/api/people/');
   if (search) url.searchParams.set('search', search);
-  if (page > 1) url.searchParams.set('page', String(page));
+  if (page > 0) url.searchParams.set('page', String(page + 1));
 
   const response = await fetch(url.toString(), { signal });
   if (!response.ok) {

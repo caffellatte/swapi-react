@@ -1,5 +1,5 @@
-import { type PaginationState } from '@tanstack/react-table';
-import type { Dispatch, SetStateAction } from 'react';
+import { type Table } from '@tanstack/react-table';
+
 import {
   ChevronLeft,
   ChevronRight,
@@ -8,38 +8,25 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui';
 
-interface Props {
-  pagination: PaginationState;
-  setPagination: Dispatch<SetStateAction<PaginationState>>;
-  totalPages: number;
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
+interface Props<TData> {
+  table: Table<TData>;
 }
 
-export function Pagination({
-  pagination: { pageIndex },
-  setPagination,
-  totalPages,
-  hasNextPage,
-  hasPreviousPage
-}: Props) {
+export function Pagination<TData>({ table }: Props<TData>) {
   return (
     <div className="flex items-center justify-between px-2">
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          Page {pageIndex} of {totalPages}
+          Page {table.getState().pagination.pageIndex + 1} of{' '}
+          {table.getPageCount()}
         </div>
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
             size="icon"
             className="hidden size-8 lg:flex"
-            onClick={() =>
-              setPagination((prevState) => {
-                return { pageIndex: 1, pageSize: prevState.pageSize };
-              })
-            }
-            disabled={!hasPreviousPage}
+            onClick={() => table.setPageIndex(0)}
+            disabled={!table.getCanPreviousPage()}
           >
             <span className="sr-only">Go to first page</span>
             <ChevronsLeft />
@@ -48,15 +35,8 @@ export function Pagination({
             variant="outline"
             size="icon"
             className="size-8"
-            onClick={() =>
-              setPagination((prevState) => {
-                return {
-                  pageIndex: prevState.pageIndex - 1,
-                  pageSize: prevState.pageSize
-                };
-              })
-            }
-            disabled={!hasPreviousPage}
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
           >
             <span className="sr-only">Go to previous page</span>
             <ChevronLeft />
@@ -65,15 +45,8 @@ export function Pagination({
             variant="outline"
             size="icon"
             className="size-8"
-            onClick={() =>
-              setPagination((prevState) => {
-                return {
-                  pageIndex: prevState.pageIndex + 1,
-                  pageSize: prevState.pageSize
-                };
-              })
-            }
-            disabled={!hasNextPage}
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
           >
             <span className="sr-only">Go to next page</span>
             <ChevronRight />
@@ -82,12 +55,8 @@ export function Pagination({
             variant="outline"
             size="icon"
             className="hidden size-8 lg:flex"
-            onClick={() =>
-              setPagination((prevState) => {
-                return { pageIndex: totalPages, pageSize: prevState.pageSize };
-              })
-            }
-            disabled={!hasNextPage}
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
           >
             <span className="sr-only">Go to last page</span>
             <ChevronsRight />

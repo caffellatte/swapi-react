@@ -9,7 +9,7 @@ export default function People() {
   const [search, setSearch] = useState('');
 
   const [pagination, setPagination] = usePagination({
-    pageIndex: 1,
+    pageIndex: 0,
     pageSize: 10
   });
 
@@ -18,22 +18,18 @@ export default function People() {
     page: pagination.pageIndex
   });
 
-  const table = useTable({ data: people, columns });
-
-  const totalPages = data?.totalPages ?? 1;
-  const hasNextPage = data?.hasNextPage ?? false;
-  const hasPreviousPage = data?.hasPreviousPage ?? false;
+  const table = useTable({
+    data: people,
+    columns,
+    pagination,
+    setPagination,
+    totalPages: data?.totalPages ?? 1
+  });
 
   return (
     <div className="container mx-auto py-10">
       <DataTable columns={columns} table={table} />
-      <Pagination
-        pagination={pagination}
-        setPagination={setPagination}
-        totalPages={totalPages}
-        hasNextPage={hasNextPage}
-        hasPreviousPage={hasPreviousPage}
-      />
+      <Pagination table={table} />
     </div>
   );
 }
