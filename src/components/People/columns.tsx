@@ -1,7 +1,7 @@
 import { type TPeople } from '@/types';
 import { type ColumnDef } from '@tanstack/react-table';
 import { useAtom } from 'jotai';
-import { peopleId } from '@/atoms';
+import { peopleId, peopleDialogOpen } from '@/atoms';
 
 import { Button } from '@/components/ui';
 
@@ -14,12 +14,18 @@ const columns: ColumnDef<TPeople>[] = [
     id: 'actions',
     cell: ({ row }) => {
       const [, setPeopleId] = useAtom(peopleId);
+      const [, setPeopleDialogOpen] = useAtom(peopleDialogOpen);
       const url = row.original.url;
       const id = url.split('/').at(-2);
 
       if (id) {
         return (
-          <Button disabled={!id} onClick={() => setPeopleId(Number(id))}>
+          <Button
+            onClick={() => {
+              setPeopleId(Number(id));
+              setPeopleDialogOpen(true);
+            }}
+          >
             Details
           </Button>
         );
