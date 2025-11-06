@@ -37,14 +37,16 @@ export function PeoplePage() {
 
   return (
     <div className="container mx-auto py-10">
-      <Input
-        type="text"
-        placeholder="Search..."
-        value={search}
-        onChange={handleSearchInputChange}
-      />
-      <DataTable columns={columns} table={table} />
-      <Pagination table={table} />
+      <div className="flex flex-col gap-5">
+        <Input
+          type="text"
+          placeholder="Search..."
+          value={search}
+          onChange={handleSearchInputChange}
+        />
+        <DataTable columns={columns} table={table} />
+        <Pagination table={table} />
+      </div>
     </div>
   );
 }
