@@ -7,6 +7,7 @@ interface PeopleIdResponse extends TPeople {}
 
 interface UsePeopleIdParams {
   id: number;
+  enabled?: boolean;
 }
 
 const fetchPeopleId = async ({
@@ -34,13 +35,15 @@ const fetchPeopleId = async ({
 };
 
 export const usePeopleId = ({
-  id
+  id,
+  enabled = false
 }: UsePeopleIdParams): UseQueryResult<PeopleIdResponse> & {
   peopleId: TPeople | null;
 } => {
   const query = useQuery({
     queryKey: ['people-id', { id }],
     queryFn: fetchPeopleId,
+    enabled: enabled && Number.isFinite(id),
     select: (data): PeopleIdResponse => {
       return {
         ...data

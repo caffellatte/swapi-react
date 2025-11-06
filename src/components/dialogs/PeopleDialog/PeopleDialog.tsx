@@ -8,10 +8,24 @@ import {
 } from '@/components/ui';
 import { peopleId, peopleDialogOpen } from '@/atoms';
 import { useAtom } from 'jotai';
+import { usePeopleId } from '@/hooks';
 
 export default function PeopleDialog() {
   const [id, setPeopleId] = useAtom(peopleId);
   const [, setPeopleDialogOpen] = useAtom(peopleDialogOpen);
+
+  // TODO: handler loading & error state
+  const {
+    peopleId: details,
+    isLoading,
+    isError,
+    error,
+    data,
+    isFetching
+  } = usePeopleId({
+    id: id as number,
+    enabled: !!id
+  });
 
   return (
     <DialogContent
@@ -27,6 +41,8 @@ export default function PeopleDialog() {
           Details about people with id: {id}
         </DialogDescription>
       </DialogHeader>
+
+      <div>{details?.name}</div>
 
       <DialogFooter>
         <Button
