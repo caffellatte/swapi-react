@@ -1,11 +1,14 @@
-import { type ChangeEvent, useState } from 'react';
+import { type ChangeEvent, useState, useEffect } from 'react';
 import { columns } from './columns';
 import { DataTable } from './DataTable';
 import { Pagination } from '@/components/common';
 import { useDebounce, usePagination, usePeople, useTable } from '@/hooks';
 import { Input } from '@/components/ui';
+import { useAtom } from 'jotai';
+import { peopleId } from '@/atoms';
 
 export default function People() {
+  const [id] = useAtom(peopleId);
   const [search, setSearch] = useState('');
 
   const debouncedSearchTerm = useDebounce(search, 300);
@@ -35,6 +38,10 @@ export default function People() {
       return { pageIndex: 0, pageSize: prevState.pageSize };
     });
   };
+
+  useEffect(() => {
+    console.log('id:', id);
+  }, [id]);
 
   return (
     <div className="container mx-auto py-10">

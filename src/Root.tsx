@@ -1,9 +1,12 @@
 import App from './App';
 import ReactQueryProvider from './lib/ReactQueryProvider';
+import { Provider } from 'jotai';
 
 const Root = () => (
   <ReactQueryProvider>
-    <App />
+    <Provider>
+      <App />
+    </Provider>
   </ReactQueryProvider>
 );
 
