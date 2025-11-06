@@ -1,7 +1,6 @@
 import { type ChangeEvent, useState, useEffect } from 'react';
 import { columns } from './columns';
-import { DataTable } from './DataTable';
-import { Pagination } from '@/components/common';
+import { DataTable, Pagination } from '@/components/common';
 import { useDebounce, usePagination, usePeople, useTable } from '@/hooks';
 import { Input } from '@/components/ui';
 import { useAtom } from 'jotai';
