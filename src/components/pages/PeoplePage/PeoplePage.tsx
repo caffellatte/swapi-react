@@ -7,7 +7,7 @@ import { Input } from '@/components/ui';
 import { useAtom } from 'jotai';
 import { peopleId } from '@/atoms';
 
-export default function People() {
+export default function PeoplePage() {
   const [id] = useAtom(peopleId);
   const [search, setSearch] = useState('');
 

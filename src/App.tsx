@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai';
-import { People } from '@/components/pages';
+import { PeoplePage } from '@/components/pages';
 import { Dialog } from '@/components/ui';
 import { PeopleDialog } from '@/components/dialogs';
 import { peopleDialogOpen } from '@/atoms';
@@ -9,7 +9,7 @@ function App() {
 
   return (
     <>
-      <People />
+      <PeoplePage />
       <Dialog open={isPeopleDialogOpen}>
         <PeopleDialog />
       </Dialog>
