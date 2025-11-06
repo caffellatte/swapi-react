@@ -37,9 +37,11 @@ export function PeopleDialog() {
       }}
     >
       <DialogHeader>
-        <DialogTitle>{details?.name}</DialogTitle>
+        <DialogTitle>
+          {details?.name} ({id})
+        </DialogTitle>
         <DialogDescription>
-          Details about people with id: {id}
+          View and edit character details. Changes saved locally.
         </DialogDescription>
       </DialogHeader>
 
