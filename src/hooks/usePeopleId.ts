@@ -6,7 +6,7 @@ import { type TPeople } from '@/types';
 interface PeopleIdResponse extends TPeople {}
 
 interface UsePeopleIdParams {
-  id: number;
+  id: number | null;
   enabled?: boolean;
 }
 
@@ -14,7 +14,7 @@ const fetchPeopleId = async ({
   queryKey,
   signal
 }: {
-  queryKey: [string, { id: number }];
+  queryKey: [string, { id: number | null }];
   signal?: AbortSignal;
 }): Promise<PeopleIdResponse> => {
   const [, { id }] = queryKey;

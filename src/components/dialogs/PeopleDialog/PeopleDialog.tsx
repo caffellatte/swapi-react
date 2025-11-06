@@ -23,7 +23,7 @@ export default function PeopleDialog() {
     data,
     isFetching
   } = usePeopleId({
-    id: id as number,
+    id: id,
     enabled: !!id
   });
 
