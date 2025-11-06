@@ -1,20 +1,23 @@
+import { type ChangeEvent, useState } from 'react';
 import { columns } from './columns';
 import { DataTable } from './DataTable';
-import { usePeople } from '@/hooks';
-import { useState } from 'react';
 import { Pagination } from '@/components/common';
-import { usePagination, useTable } from '@/hooks';
+import { useDebounce, usePagination, usePeople, useTable } from '@/hooks';
+import { Input } from '@/components/ui';
 
 export default function People() {
   const [search, setSearch] = useState('');
+
+  const debouncedSearchTerm = useDebounce(search, 300);
 
   const [pagination, setPagination] = usePagination({
     pageIndex: 0,
     pageSize: 10
   });
 
+  // TODO: handler loading & error state
   const { people, isLoading, isError, error, data, isFetching } = usePeople({
-    search,
+    search: String(debouncedSearchTerm),
     page: pagination.pageIndex
   });
 
@@ -26,8 +29,21 @@ export default function People() {
     totalPages: data?.totalPages ?? 1
   });
 
+  const handleSearchInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+    setPagination((prevState) => {
+      return { pageIndex: 0, pageSize: prevState.pageSize };
+    });
+  };
+
   return (
     <div className="container mx-auto py-10">
+      <Input
+        type="text"
+        placeholder="Search..."
+        value={search}
+        onChange={handleSearchInputChange}
+      />
       <DataTable columns={columns} table={table} />
       <Pagination table={table} />
     </div>
