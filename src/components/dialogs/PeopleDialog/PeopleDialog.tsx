@@ -9,6 +9,7 @@ import { peopleId, peopleDialogOpen } from '@/atoms';
 import { useAtom } from 'jotai';
 import { usePeopleId } from '@/hooks';
 import { PeopleForm } from '@/components/forms';
+import { Spinner } from '@/components/ui';
 
 export function PeopleDialog() {
   const [id, setPeopleId] = useAtom(peopleId);
@@ -21,7 +22,6 @@ export function PeopleDialog() {
     // isError,
     // error,
     data,
-    // isFetching,
     isSuccess
   } = usePeopleId({
     id: id,
@@ -37,19 +37,25 @@ export function PeopleDialog() {
       }}
     >
       <DialogHeader>
-        <DialogTitle>{details?.name}</DialogTitle>
+        <DialogTitle>
+          {details?.name} ({id})
+        </DialogTitle>
         <DialogDescription>
-          Details about people with id: {id}
+          View and edit character details. Changes saved locally.
         </DialogDescription>
       </DialogHeader>
 
-      {data && id && (
+      {!isLoading && data && id ? (
         <PeopleForm
           id={id}
           data={data}
           isLoading={isLoading}
           isSuccess={isSuccess}
         />
+      ) : (
+        <div className="flex items-center justify-center p-16">
+          <Spinner className="size-6" />
+        </div>
       )}
 
       <DefaultDialogClose

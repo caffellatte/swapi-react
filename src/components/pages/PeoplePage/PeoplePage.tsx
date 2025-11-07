@@ -2,7 +2,6 @@ import { type ChangeEvent } from 'react';
 import { DataTable, Pagination } from '@/components/common';
 import { useDebounce, usePagination, usePeople, useTable } from '@/hooks';
 import { Button, Input, Spinner } from '@/components/ui';
-
 import { type TPeople } from '@/types';
 import { type ColumnDef, type Row } from '@tanstack/react-table';
 import { useAtom } from 'jotai';
@@ -133,14 +132,25 @@ export function PeoplePage() {
   }
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto py-6">
       <div className="flex flex-col gap-5">
-        <Input
-          type="text"
-          placeholder="Search..."
-          value={peopleSearchTerm}
-          onChange={handleSearchInputChange}
-        />
+        <div className="flex items-center gap-2">
+          <Input
+            type="text"
+            placeholder="Name"
+            value={peopleSearchTerm}
+            onChange={handleSearchInputChange}
+          />
+          <Button
+            disabled={!peopleSearchTerm}
+            onClick={() => {
+              setPeopleSearchTerm('');
+            }}
+            variant="secondary"
+          >
+            Clear
+          </Button>
+        </div>
         {!isLoading ? (
           <>
             <DataTable columns={columns} table={table} />

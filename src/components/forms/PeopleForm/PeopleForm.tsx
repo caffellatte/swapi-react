@@ -8,6 +8,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { type PeopleResponse } from '@/hooks';
 import { peopleId, peopleDialogOpen } from '@/atoms';
 import { useAtom } from 'jotai';
+import { toast } from 'sonner';
 
 interface PeopleFormProps {
   id: number;
@@ -114,6 +115,8 @@ export function PeopleForm({
 
       setPeopleDialogOpen(false);
       setPeopleId(null);
+
+      toast.success('Data Saved Successfully');
     } catch (e) {
       setError('root', {
         type: 'custom',
